@@ -1,0 +1,5 @@
+# 公开看板仓库自身忽略项 (本目录为独立公开仓库, 与总仓库 .gitignore 无关)
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+.DS_Store
