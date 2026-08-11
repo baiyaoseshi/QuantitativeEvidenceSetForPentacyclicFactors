@@ -1,23 +1,20 @@
 # Methodology (METHODOLOGY)
 
 > **As-of date: 2026-08-11** · Companion dashboard: [Public Track Record](https://quantitativeevidencesetforpentacyclicfactors-a9dqp6rqqdseuigvx.streamlit.app/)
-> Principle: **public evidence, private recipe** — performance, methodology and governance are fully verifiable; signal construction, weights, threshold values and holdings are not disclosed.
+> Principle: **public evidence, private recipe** — performance, methodology and governance are fully verifiable; signal construction, weights, threshold values, filter/execution details and holdings are not disclosed.
 
 ---
 
 ## 1. Strategy class (concept level)
 
-Long-only, all-market A-share strategy, medium-frequency holding (average ~5 months):
+Long-only, all-market A-share strategy, medium-frequency holding (backtest average ~5 months):
 cross-sectional score signals from a proprietary research framework → daily watchlist →
-market-regime filters (both downside/bear and upside/overheat rails) → minute-level intraday
-execution → trailing profit-taking + losing-position holding mechanism.
-No leverage, no shorting, no derivatives. Ever.
+multi-layer risk filters → intraday execution. No leverage, no shorting, no derivatives. Ever.
 
 ## 2. Performance (backtest, full-stack simulation)
 
-Simulation chain: daily signals → all production filters → minute-bar execution simulation →
-full costs (commission incl. minimum charge, stamp duty, transfer fee) →
-fill-rate modeling below 100% (buy 99.7% / sell 99.9%).
+Simulation chain: signals → all production filters → execution simulation → full transaction
+costs → fill-rate modeling below 100%.
 
 | Basis | Period | Cumulative | Sharpe (time-series) | Max drawdown | Closed win rate |
 |---|---|:--:|:--:|:--:|:--:|
@@ -42,9 +39,9 @@ fill-rate modeling below 100% (buy 99.7% / sell 99.9%).
    hard stop-loss, time stop, calendar-month filter, strategy-level losing-streak circuit breaker,
    macro-credit gate, capital-flow linear gate, cross-sectional clipping, loss-cutting rotation,
    leverage (**permanently rejected**: ruin risk is unacceptable).
-4. **Out-of-sample discipline**: the overheat-protection threshold was calibrated on 2019-2026
-   data and validated out-of-sample by replaying the 2015/2007 bubble tops (fully blocked,
-   zero false triggers at the 2021 crowding top) — not fitted on 2015.
+4. **Out-of-sample discipline**: thresholds of key protection mechanisms are calibrated on
+   recent samples and validated out-of-sample by replaying historical extreme regimes
+   (2007/2015 tops, 2021 crowding top) — never fitted on the extreme samples themselves.
 
 ## 4. Active disclosures (read before the numbers)
 
@@ -52,14 +49,12 @@ fill-rate modeling below 100% (buy 99.7% / sell 99.9%).
   natural exit signal (up to **927 days** in-sample). Corollary: closed-trade win rate is
   systematically upward-biased; all equity/Sharpe/drawdown figures here are **mark-to-market,
   including unrealized losses**.
-- **Crash-risk structure = protect the entry, absorb the holding**: black swans are
-  unpredictable and this system does not claim to predict them. The entry side has overheat
-  protection (out-of-sample full block at the 2015/2007 tops); the holding side is
-  **deliberately** unprotected — drawdown is the premium paid for crash insurance.
-  The gap between -20.84% (full-history) and -2.59% (primary basis) is that premium.
+- **Crash risk**: black swans are unpredictable and this system does not claim to predict them;
+  the holding side is **deliberately** unprotected — drawdown is the premium paid for crash
+  insurance. The gap between -20.84% (full-history) and -2.59% (primary basis) is that premium.
 - **Backtest ≠ live**: backtests are historical simulations; the companion paper-trading record
   (no real slippage impact) updates daily, with execution slippage attribution reported quarterly.
-- **Small-capital constraints**: round-lot (100 shares) and minimum-commission effects are
+- **Small-capital constraints**: the impact of small-capital trading constraints is
   quantitatively modeled; control backtests at different capital levels show these constraints
   do not change the strategy's character.
 - **Path dependence**: sub-period results starting from different years differ (cash/position
@@ -73,7 +68,7 @@ fill-rate modeling below 100% (buy 99.7% / sell 99.9%).
   updates automatically after each close from the production daemon state, via a sanitizing
   export layer (normalized equity/drawdown only, first day = 100 — no amounts, no tickers,
   no signal internals).
-- **Data sources**: Tushare daily/minute bars, akshare realtime snapshots, public financials.
+- **Data sources**: Tushare market data, akshare realtime snapshots, public financials.
 - This document and the dashboard data are hosted in a public repository with full git history.
 
 *Last updated: 2026-08-11 (same as the as-of date).*
